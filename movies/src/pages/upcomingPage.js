@@ -17,7 +17,7 @@ const UpcomingPage = (props) => {
       return <h1>{error.message}</h1>
     }  
     const movies = data.results;
-  
+  //ok
     return (
       <PageTemplate
         title='Upcoming Movies'
