@@ -9,6 +9,11 @@ import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews";
+import { getMovieRecommendations } from "../../api/tmdb-api";
+import { useQuery } from 'react-query';
+import Spinner from '../spinner';
+import PageTemplate from '../templateMovieRecommendationPage';
+import AddToFavoritesIcon from '../cardIcons/addToFavorites'
 
 const root = {
     display: "flex",
@@ -22,6 +27,23 @@ const chip = { margin: 0.5 };
 
 const MovieDetails = ({ movie }) => {  
   const [drawerOpen, setDrawerOpen] = useState(false);
+  //
+  const {data, error, isLoading, isError }  = useQuery('recommendations', ()=> getMovieRecommendations(movie.id))
+
+   if (isLoading) {
+      return <Spinner />
+   }
+
+   if (isError) {
+     return <h1>{error.message}</h1>
+   }  
+
+   //console.log(data);
+   const moviesRec = data.results;
+   const favorites = moviesRec.filter(m => m.favorite)
+  localStorage.setItem('favorites', JSON.stringify(favorites))
+
+//
 
   return (
     <>
@@ -46,6 +68,7 @@ const MovieDetails = ({ movie }) => {
           </li>
         ))}
       </Paper>
+
       <Paper component="ul" sx={{...root}}>
         <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
         <Chip
@@ -72,7 +95,19 @@ const MovieDetails = ({ movie }) => {
         ))}
       </Paper>
 
+
+      <Typography variant="h5" component="h3">
+        Recommendations
+      </Typography>
+
+      <PageTemplate
+        moviesRec={moviesRec}
+        action={(movie) => {
+          return <AddToFavoritesIcon movie={movie} />
+        }}
+      />
       
+
       <Fab
         color="secondary"
         variant="extended"
