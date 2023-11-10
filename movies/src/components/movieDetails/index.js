@@ -12,7 +12,7 @@ import MovieReviews from "../movieReviews";
 import { getMovieRecommendations } from "../../api/tmdb-api";
 import { useQuery } from 'react-query';
 import Spinner from '../spinner';
-import PageTemplate from '../templateMovieRecommendationPage';
+import PageTemplateRec from '../templateMovieRecommendationPage';
 import AddToFavoritesIcon from '../cardIcons/addToFavorites'
 
 const root = {
@@ -25,7 +25,7 @@ const root = {
 };
 const chip = { margin: 0.5 };
 
-const MovieDetails = ({ movie }) => {  
+const MovieDetails = ({movie}) => {  
   const [drawerOpen, setDrawerOpen] = useState(false);
   //
   const {data, error, isLoading, isError }  = useQuery('recommendations', ()=> getMovieRecommendations(movie.id))
@@ -37,16 +37,22 @@ const MovieDetails = ({ movie }) => {
    if (isError) {
      return <h1>{error.message}</h1>
    }  
+   const moviesRec = data
 
-   //console.log(data);
-   const moviesRec = data.results;
-   const favorites = moviesRec.filter(m => m.favorite)
-  localStorage.setItem('favorites', JSON.stringify(favorites))
+   console.log(data)
+   if(moviesRec !== undefined){
+    console.log(moviesRec)
+    const favorites = moviesRec.filter(m => m.favorite)
+    localStorage.setItem('favorites', JSON.stringify(favorites))
+   }
 
+
+  
 //
 
   return (
     <>
+
       <Typography variant="h5" component="h3">
         Overview
       </Typography>
@@ -100,14 +106,13 @@ const MovieDetails = ({ movie }) => {
         Recommendations
       </Typography>
 
-      <PageTemplate
-        moviesRec={moviesRec}
-        action={(movie) => {
-          return <AddToFavoritesIcon movie={movie} />
+      <PageTemplateRec
+       movies={moviesRec}
+       action={(movie) => {
+       return <AddToFavoritesIcon movie={movie} />
         }}
       />
-      
-
+        
       <Fab
         color="secondary"
         variant="extended"

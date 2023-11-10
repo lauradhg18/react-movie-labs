@@ -1,23 +1,22 @@
-import React, { useState } from "react";
-import Header from "../headerMovieList";
-import FilterCard from "../filterMoviesCard";
+import React from "react";
 import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
 
-function MovieRecommendationPageTemplate({movies, action}) { // Nañadir action quizas
+function MovieRecommendationPageTemplate({movies, action}) { 
   
-  let displayedMovies = movies
+  console.log(movies)
+  console.log(action) 
+  if(movies !== undefined){
+     
+      return (
+         <Grid container sx={{ padding: '10px' }}>
 
-  return (
-    <Grid container sx={{ padding: '20px' }}>
-
-      <Grid item container spacing={5}>
-        <Grid key="find" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          
-            </Grid>
-            <MovieList movies={displayedMovies} action={action}></MovieList>
-          </Grid>
-        </Grid>
+            <Grid item container spacing={2}>    
+             <MovieList action={action} movies={movies} ></MovieList>
+              </Grid>
+           </Grid>
       );
     }
-    export default MovieRecommendationPageTemplate;
+};
+
+export default MovieRecommendationPageTemplate;

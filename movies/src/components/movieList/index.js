@@ -8,6 +8,8 @@ const MovieList = ( {movies, action }) => {
       <Movie key={m.id} movie={m} action={action} />
     </Grid>
   ));
+
+  
   return movieCards;
 };
 
