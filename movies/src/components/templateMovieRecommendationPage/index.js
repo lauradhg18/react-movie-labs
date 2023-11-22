@@ -3,8 +3,6 @@ import Grid from "@mui/material/Grid";
 import MovieListRecommendation from "../movieListRecommendations";
 
 function MovieRecommendationPageTemplate({movies, action}) { 
-  
-  console.log(movies)
    
   if(movies !== undefined){
      

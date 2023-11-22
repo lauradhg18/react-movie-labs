@@ -1,12 +1,17 @@
 import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import img from '../../images/film-poster-placeholder.png'
+import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
 import React from "react";
 
+
 export default function MovieActors({credits}) {
+  
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardMedia
@@ -18,19 +23,24 @@ export default function MovieActors({credits}) {
         }
       />
       <CardContent>
-        <Grid container>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              {credits.name}
-            </Typography>
-            <br/>
-            <Typography variant="h7" component="p">
-              {credits.character}
-            </Typography>
-          </Grid>
-          
-        </Grid>
+      <Grid container spacing={2} alignItems="center">
+        <Grid item>
+        <Typography variant="h6" component="p">
+            {credits.name}
+         </Typography>
+          <Typography variant="h7" component="p">
+            {credits.character}
+         </Typography>
+      </Grid>
+      </Grid>
       </CardContent>
+         <CardActions disableSpacing>
+           <Link to={`/movies/actor/${credits.id}`}>
+           <Button variant="outlined" size="medium" color="primary">
+              More Info ...
+           </Button>
+          </Link>
+         </CardActions>
     </Card>
   );
 }

@@ -13,7 +13,7 @@ const MovieActorList = ({credits}) => {
   ));
 
   return(
-    actorCards
+    actorCards.slice(0,9)
   );
 };
 

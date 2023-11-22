@@ -44,13 +44,11 @@ const MovieDetails = ({movie}) => {
   const favorites = moviesRec.filter(m => m.favorite)
   localStorage.setItem('favorites', JSON.stringify(favorites))
  
-  console.log(credLoading)
   if (credError) {
     return <h1>{credIsErr.message}</h1>
   } 
 
   const movieCredits = credits.cast
-  console.log(movieCredits)
    
   return (
     <>
