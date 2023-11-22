@@ -10,10 +10,12 @@ import React, { useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews";
 import { getMovieRecommendations } from "../../api/tmdb-api";
+import { getMovieCredits } from "../../api/tmdb-api";
 import { useQuery } from 'react-query';
 import Spinner from '../spinner';
 import PageTemplateRec from '../templateMovieRecommendationPage';
 import AddToFavoritesIcon from '../cardIcons/addToFavorites'
+import MovieActorsTemplate from '../templateMovieActors';
 
 const root = {
     display: "flex",
@@ -28,28 +30,28 @@ const chip = { margin: 0.5 };
 const MovieDetails = ({movie}) => {  
   const [drawerOpen, setDrawerOpen] = useState(false);
   //
-  const {data, error, isLoading, isError }  = useQuery('recommendations', ()=> getMovieRecommendations(movie.id))
-
-   if (isLoading) {
-      return <Spinner />
-   }
-
-   if (isError) {
-     return <h1>{error.message}</h1>
-   }  
-   const moviesRec = data
-
-   console.log(data)
-   if(moviesRec !== undefined){
-    console.log(moviesRec)
-    const favorites = moviesRec.filter(m => m.favorite)
-    localStorage.setItem('favorites', JSON.stringify(favorites))
-   }
-
-
+  const {data: recommendations, error: recError, isLoading: recLoading, isError:recIsErr }  = useQuery('recommendations', ()=> getMovieRecommendations(movie.id))
+  const {data: credits, error: credError, isLoading: credLoading, isError: credIsErr }  = useQuery('credits', ()=> getMovieCredits(movie.id))
+  if (recLoading || credLoading) {
+    return <Spinner />;
+  }
   
-//
+  if (recIsErr) {
+    return <h1>{recError.message}</h1>
+  }  
+   
+  const moviesRec = recommendations 
+  const favorites = moviesRec.filter(m => m.favorite)
+  localStorage.setItem('favorites', JSON.stringify(favorites))
+ 
+  console.log(credLoading)
+  if (credError) {
+    return <h1>{credIsErr.message}</h1>
+  } 
 
+  const movieCredits = credits.cast
+  console.log(movieCredits)
+   
   return (
     <>
 
@@ -100,9 +102,8 @@ const MovieDetails = ({movie}) => {
           </li>
         ))}
       </Paper>
-
-
-      <Typography variant="h5" component="h3">
+      
+      <Typography variant="h5" component="h3" textAlign="center" >
         Recommendations
       </Typography>
 
@@ -112,7 +113,14 @@ const MovieDetails = ({movie}) => {
        return <AddToFavoritesIcon movie={movie} />
         }}
       />
-        
+
+      <Typography variant="h5" component="h3" textAlign="center" >
+        ACTORS
+      </Typography>
+      <MovieActorsTemplate
+       credits={movieCredits}
+      />
+
       <Fab
         color="secondary"
         variant="extended"

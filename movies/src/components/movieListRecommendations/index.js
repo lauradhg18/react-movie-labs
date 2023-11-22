@@ -1,20 +1,20 @@
 import React from "react";
-import Movie from "../movieCard";
+import Movie from "../movieCardRecommendations";
 import Grid from "@mui/material/Grid";
 import {DataGrid} from "@mui/x-data-grid";
 
 
-const MovieList = ( {movies, action }) => {
+const MovieListRecommendation = ( {movies, action }) => {
  
   let movieCards = movies.map((m) => (
-    <Grid key={m.id} item xs={11} sm={5} md={3} lg={4} xl={1}>
+    <Grid key={m.id} item xs={2} sm={2} md={2} lg={4} xl={1}>
       <Movie key={m.id} movie={m} action={action} />
     </Grid>
   ));
 
   return(
-    movieCards
+    movieCards.slice(0,3)
   );
 };
 
-export default MovieList;
+export default MovieListRecommendation;

@@ -1,18 +1,18 @@
 import React from "react";
-import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
+import MovieListRecommendation from "../movieListRecommendations";
 
 function MovieRecommendationPageTemplate({movies, action}) { 
   
   console.log(movies)
-  console.log(action) 
+   
   if(movies !== undefined){
      
       return (
-         <Grid container sx={{ padding: '10px' }}>
+         <Grid container sx={{ padding: '60px' }}>
 
             <Grid item container spacing={2}>    
-             <MovieList action={action} movies={movies} ></MovieList>
+             <MovieListRecommendation action={action} movies={movies} ></MovieListRecommendation>
               </Grid>
            </Grid>
       );

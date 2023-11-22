@@ -20,7 +20,7 @@ const TemplateMoviePage = ({ movie, children }) => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-  const images = (data.posters).slice(0, 3);
+  const images = (data.posters).slice(0, 2);
   
 
   return (

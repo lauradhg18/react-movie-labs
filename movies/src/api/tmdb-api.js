@@ -75,9 +75,22 @@ export const getMovie = (args) => {
     )
       .then((res) => res.json())
       .then((json) => {
-        console.log(json.results);
         return json.results;
       });
+  };
+
+  export const getMovieCredits = async (id) => {
+    return fetch(
+      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1`
+    ).then( (response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
   };
 
   export const getUpcomingMovies = () => {
