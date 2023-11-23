@@ -45,7 +45,7 @@ export default function MovieCardRecommendations({ movie, action }) {
         }
       />
       <CardMedia
-        sx={{ height: 400 }}
+        sx={{ height: 400 }} //cambia el tamaño de la imagen
         image={
           movie.poster_path
             ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
