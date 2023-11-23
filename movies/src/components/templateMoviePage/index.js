@@ -14,7 +14,7 @@ const TemplateMoviePage = ({ movie, children }) => {
     ["images", { id: movie.id }],
     getMovieImages
   );
-  const { data: provider , error: proverr, isLoading: provLoad, isError: provErr } = useQuery(
+   const { data: provider , error: proverr, isLoading: provLoad, isError: provErr } = useQuery(
     ["providers", { id: movie.id }],
     getMovieProviders
   );
@@ -35,7 +35,7 @@ const TemplateMoviePage = ({ movie, children }) => {
   const providers = Object.values(provider.results)
   console.log(providers)
 
-  console.log(providers[0].link)
+  //console.log(providers[0].link)
   //console.log(providers[0].flatrate[0].provider_name)
   /*<Typography variant="h9" >
   <div>{providers[0].flatrate[0].provider_name}

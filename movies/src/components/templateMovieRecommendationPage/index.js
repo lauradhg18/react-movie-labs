@@ -9,7 +9,7 @@ function MovieRecommendationPageTemplate({movies, action}) {
       return (
          <Grid container sx={{ padding: '60px' }}>
 
-            <Grid item container spacing={2}>    
+            <Grid  item container spacing={2}>    
              <MovieListRecommendation action={action} movies={movies} ></MovieListRecommendation>
               </Grid>
            </Grid>

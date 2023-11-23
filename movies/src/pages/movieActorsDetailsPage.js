@@ -8,7 +8,6 @@ import Spinner from '../components/spinner'
 
 const ActorPage = () => {
   const { id } = useParams();
-  console.log(id)
   const { data: actorData, error, isLoading, isError } = useQuery(
     ["actors", { id: id }], getActorDetails);
 

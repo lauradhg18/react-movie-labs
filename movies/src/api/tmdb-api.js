@@ -219,7 +219,7 @@ export const getMovie = (args) => {
       if (!response.ok) {
         throw new Error(response.json().message);
       }
-      console.log(response)
+     
       return response.json();
     })
     .catch((error) => {
@@ -234,7 +234,7 @@ export const getMovie = (args) => {
       if (!response.ok) {
         throw new Error(response.json().message);
       }
-      console.log(response)
+      
       return response.json();
     })
     .catch((error) => {

@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -13,6 +14,7 @@ import img from '../../images/pexels-dziana-hasanbekava-5480827.jpg'
 import { getDepartment } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner'
+import CategoriesOption from "../categoriesOption";
 
 const formControl = 
   {
@@ -34,13 +36,10 @@ export default function FilterPeopleCard(props) {
   }
    
   const department = data
-  if (department !== "All"){
-    department.unshift({ id: "0", name: "All" });
+  if (department[0].department !== "All"){
+    department.unshift({ department: "All" });
   }
 
-  console.log(department)
-
- 
 
   const handleChange = (e, type, value) => {
     e.preventDefault();
@@ -57,10 +56,12 @@ export default function FilterPeopleCard(props) {
 
 
   return (
+
+    <div>
     <Card 
       sx={{
         maxWidth: 345,
-        backgroundColor: "rgb(204, 204, 0)"
+        backgroundColor: "rgb(204, 153, 255)"
       }} 
       variant="outlined">
       <CardContent>
@@ -97,7 +98,7 @@ export default function FilterPeopleCard(props) {
         </FormControl>
       </CardContent>
       <CardMedia
-        sx={{ height: 300 }}
+        sx={{ height: 200 }}
         image={img}
         title="Filter"
       />
@@ -109,5 +110,29 @@ export default function FilterPeopleCard(props) {
         </Typography>
       </CardContent>
     </Card>
+
+<Grid
+container
+sx={{
+  maxWidth: 345,
+  backgroundColor: "rgb(204, 153, 255)",
+  marginTop: 2  // Agrega un espacio superior entre el Card y el Grid (ajusta según sea necesario)
+}}
+variant="outlined"
+>
+{/* Contenido del Grid, como texto */}
+<Typography variant="h6" >
+  Categories
+</Typography>
+
+<div>
+  <CategoriesOption department={department}/>
+</div>
+
+</Grid>
+</div>
+
+
+
   );
 }

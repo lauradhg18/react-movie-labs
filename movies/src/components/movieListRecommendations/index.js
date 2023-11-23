@@ -11,7 +11,7 @@ const MovieListRecommendation = ( {movies, action }) => {
       <Movie key={m.id} movie={m} action={action} />
     </Grid>
   ));
-console.log(movieCards)
+
   return(
     movieCards.slice(0,9)
   );

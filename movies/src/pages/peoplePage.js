@@ -7,7 +7,7 @@ import Spinner from '../components/spinner';
 
 const PeoplePage = (props) => {
 
-  const {data, error, isLoading, isError }  = useQuery('discover', getPeople)
+  const {data, error, isLoading, isError }  = useQuery('discoverpeople', getPeople)
 
   if (isLoading) {
     return <Spinner />
@@ -17,8 +17,7 @@ const PeoplePage = (props) => {
     return <h1>{error.message}</h1>
   }  
   const people = data.results
-  console.log(people);
-
+ 
   // Redundant, but necessary to avoid app crashing.
  // const favorites = movies.filter(m => m.favorite)
  // localStorage.setItem('favorites', JSON.stringify(favorites))

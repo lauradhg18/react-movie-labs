@@ -11,6 +11,7 @@ import FavoriteMoviesPage from "./pages/favoriteMoviesPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import PopularMoviesPage from "./pages/popularMoviesPage";
 import PeoplePage from "./pages/peoplePage";
+//import DepartmentPage from "./pages/departmentPage";
 import SiteHeader from './components/siteHeader'
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
           <Route path="/movies/:id" element={<MoviePage />} />
           <Route path="/movies/actor/:id" element={<ActorPage />} />
+         
           <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
           <Route path="/movies/actor" element={<PeoplePage />} />
           <Route path="/" element={<HomePage />} />
@@ -56,3 +58,5 @@ const App = () => {
 
 const rootElement = createRoot( document.getElementById("root") )
 rootElement.render(<App />);
+
+// <Route path="/movies/actor/:department" element={<DepartmentPage />} />

@@ -6,15 +6,15 @@ import Grid from "@mui/material/Grid";
 
 function PeopleListPageTemplate({ people, title }) {
   const [nameFilter, setNameFilter] = useState("");
-  const [departmentFilter, setDepartmentFilter] = useState("0");
-  const departmentId = Number(departmentFilter);
+  const [departmentFilter, setDepartmentFilter] = useState("All");
+  const departmentId = String(departmentFilter);
   
   let displayedPeople = people
     .filter((p) => {
       return p.name.toLowerCase().search(nameFilter.toLowerCase()) !== -1;
     })
     .filter((p) => {
-      return departmentId > 0 ? p.known_for_department.includes(departmentId) : true;
+      return departmentId !== "All" ? p.known_for_department.includes(departmentId) : true;
     });
 
   const handleChange = (type, value) => {
