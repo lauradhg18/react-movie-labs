@@ -1,10 +1,9 @@
 import React from "react";
 import Movie from "../movieCard";
 import Grid from "@mui/material/Grid";
-import {DataGrid} from "@mui/x-data-grid";
 
 
-const MovieList = ( {movies, action }) => {
+const MovieList = ( {movies, action}) => {
  
   let movieCards = movies.map((m) => (
     <Grid key={m.id} item xs={11} sm={5} md={3} lg={4} xl={1}>

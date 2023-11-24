@@ -9,13 +9,15 @@ import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews";
+import MovieRate from "../movieRate";
 import { getMovieRecommendations } from "../../api/tmdb-api";
 import { getMovieCredits } from "../../api/tmdb-api";
 import { useQuery } from 'react-query';
 import Spinner from '../spinner';
-import PageTemplateRec from '../templateMovieRecommendationPage';
 import AddToFavoritesIcon from '../cardIcons/addToFavorites'
 import MovieActorsTemplate from '../templateMovieActors';
+import Grid from "@mui/material/Grid";
+import MovieListRecommendation from "../movieListRecommendations";
 
 const root = {
     display: "flex",
@@ -28,10 +30,13 @@ const root = {
 const chip = { margin: 0.5 };
 
 const MovieDetails = ({movie}) => {  
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [rateDrawerOpen, setRateDrawerOpen] = useState(false);
+  const [reviewsDrawerOpen, setReviewsDrawerOpen] = useState(false);
   //
-  const {data: recommendations, error: recError, isLoading: recLoading, isError:recIsErr }  = useQuery('recommendations', ()=> getMovieRecommendations(movie.id))
-  const {data: credits, error: credError, isLoading: credLoading, isError: credIsErr }  = useQuery('credits', ()=> getMovieCredits(movie.id))
+  const {data: recommendations, error: recError, isLoading: recLoading, isError:recIsErr }  
+  = useQuery('recommendations'+ movie.id, async ()=> {const responseRec = await getMovieRecommendations(movie.id); return responseRec})
+  const {data: credits, error: credError, isLoading: credLoading, isError: credIsErr } 
+  = useQuery('credits' + movie.id,  async ()=> {const responseCre = await getMovieCredits(movie.id); return responseCre;})
   if (recLoading || credLoading) {
     return <Spinner />;
   }
@@ -49,7 +54,7 @@ const MovieDetails = ({movie}) => {
   } 
 
   const movieCredits = credits.cast
-   
+
   return (
     <>
 
@@ -102,15 +107,17 @@ const MovieDetails = ({movie}) => {
       </Paper>
       
       <Typography variant="h5" component="h3" textAlign="center" >
-        Recommendations
+        RECOMMENATIONS
       </Typography>
 
-      <PageTemplateRec
-       movies={moviesRec}
-       action={(movie) => {
-       return <AddToFavoritesIcon movie={movie} />
-        }}
-      />
+      <Grid container sx={{ padding: '60px' }}>
+          <Grid  item container spacing={2}>    
+  <           MovieListRecommendation action={(movie) => {
+                        return <AddToFavoritesIcon movie={movie} />
+                        }} movies={moviesRec} ></MovieListRecommendation>
+           </Grid>
+      </Grid>
+      
 
       <Typography variant="h5" component="h3" textAlign="center" >
         ACTORS
@@ -120,9 +127,27 @@ const MovieDetails = ({movie}) => {
       />
 
       <Fab
+        color="primary"
+        variant="extended"
+        onClick={() =>setRateDrawerOpen(true)}
+        sx={{
+            position: "fixed",
+            bottom: '5em',
+            right: '1em'
+        }}
+      >
+        <NavigationIcon />
+        Rate Movie
+      </Fab>
+      <Drawer anchor="top" open={rateDrawerOpen} onClose={() => setRateDrawerOpen(false)}>
+        <MovieRate movie={movie} />
+      </Drawer>
+
+
+      <Fab
         color="secondary"
         variant="extended"
-        onClick={() =>setDrawerOpen(true)}
+        onClick={() =>setReviewsDrawerOpen(true)}
         sx={{
             position: "fixed",
             bottom: '1em',
@@ -132,10 +157,19 @@ const MovieDetails = ({movie}) => {
         <NavigationIcon />
         Reviews
       </Fab>
-      <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+
+      <Drawer anchor="top" open={reviewsDrawerOpen} onClose={() => setReviewsDrawerOpen(false)}>
         <MovieReviews movie={movie} />
       </Drawer>
-      </>
+
+              </>
+      
   );
 };
 export default MovieDetails ;
+/*<PageTemplateRec
+       movies={moviesRec}
+       action={(movie) => {
+       return <AddToFavoritesIcon movie={movie} />
+        }}
+      />*/ 

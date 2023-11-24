@@ -12,11 +12,12 @@ import MovieReviews from "../movieReviews";
 import { getActorMovieCredits} from "../../api/tmdb-api";
 import { useQuery } from 'react-query';
 import Spinner from '../spinner';
-import PageTemplateRec from '../templateMovieRecommendationPage';
 import AddToFavoritesIcon from '../cardIcons/addToFavorites'
 import CakeIcon from '@mui/icons-material/Cake';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
+import Grid from "@mui/material/Grid";
+import MovieListRecommendation from "../movieListRecommendations";
 
 
 const root = {
@@ -33,7 +34,7 @@ const ActorDetails = ({actor}) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   
   const {data: moviecredits, error: movError, isLoading: movLoading, isError:movIsErr }  = useQuery(
-    'moviecredits', ()=> getActorMovieCredits(actor.id))
+    'moviecredits' + actor.id, ()=> getActorMovieCredits(actor.id))
   
   if (movLoading) {
     return <Spinner />;
@@ -95,12 +96,14 @@ const ActorDetails = ({actor}) => {
         MOVIES CREDITS
       </Typography>
 
-      <PageTemplateRec
-       movies={movieCredits}
-       action={(movie) => {
-       return <AddToFavoritesIcon movie={movie} />
-        }}
-      />
+      <Grid container sx={{ padding: '60px' }}>
+          <Grid  item container spacing={2}>    
+  <           MovieListRecommendation action={(movie) => {
+                        return <AddToFavoritesIcon movie={movie} />
+                        }} movies={movieCredits} ></MovieListRecommendation>
+           </Grid>
+      </Grid>
+      
       
       </>
   );

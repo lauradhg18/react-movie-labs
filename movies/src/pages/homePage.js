@@ -1,13 +1,30 @@
-import React from "react";
+import {useState, useEffect} from "react";
 import { getMovies } from "../api/tmdb-api";
 import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
+import AddToWatchListIcon from '../components/cardIcons/addToWatchListIcon'
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 const HomePage = (props) => {
+ // const storedPage = localStorage.getItem('currentPage') || 1;
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const {data, error, isLoading, isError }  = useQuery('discover', getMovies)
+  const { data, error, isLoading, isError } = useQuery(
+    ['movies'+currentPage, currentPage], // Key for the query
+    () => getMovies(currentPage), // queryFn
+    {
+      keepPreviousData: true, 
+    }
+  );
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
+//  useEffect(() => {
+  //  localStorage.setItem('currentPage', currentPage);
+ // }, [currentPage]);
 
   if (isLoading) {
     return <Spinner />
@@ -18,19 +35,45 @@ const HomePage = (props) => {
   }  
   const movies = data.results;
 
+
   // Redundant, but necessary to avoid app crashing.
   const favorites = movies.filter(m => m.favorite)
   localStorage.setItem('favorites', JSON.stringify(favorites))
- 
+  const watchList = movies.filter(m => m.watchList)
+  localStorage.setItem('watchList', JSON.stringify(watchList))
+  
 
   return (
+<div>
     <PageTemplate
+ 
     title="Discover Movies"
     movies={movies}
     action={(movie) => {
       return <AddToFavoritesIcon movie={movie} />
     }}
   />
+
+  <Stack spacing={2}>
+      <Pagination count={10} color="secondary" page={currentPage} onChange={handlePageChange}/>
+       </Stack>
+
+       </div>
+
+  
   );
 };
 export default HomePage;
+
+/** action={[
+      (movie) => <AddToFavoritesIcon movie={movie} />,
+      (movie) => <AddToWatchListIcon movie={movie} />,
+    ]}
+    */
+
+/* action1={(movie) => {
+      return <AddToFavoritesIcon movie={movie} />
+    }}
+    action2 = {(movie) => {
+      return <AddToWatchListIcon movie={movie} />
+    }}*/

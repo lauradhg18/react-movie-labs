@@ -11,11 +11,11 @@ import Typography from "@mui/material/Typography";
 
 const TemplateMoviePage = ({ movie, children }) => {
   const { data: img , error: imgerr, isLoading: imgLoad, isError: imgErr } = useQuery(
-    ["images", { id: movie.id }],
+    ["images" + movie.id, { id: movie.id }],
     getMovieImages
   );
    const { data: provider , error: proverr, isLoading: provLoad, isError: provErr } = useQuery(
-    ["providers", { id: movie.id }],
+    ["providers" + movie.id, { id: movie.id }],
     getMovieProviders
   );
 
@@ -31,9 +31,9 @@ const TemplateMoviePage = ({ movie, children }) => {
     return <h1>{proverr.message}</h1>;
   }
   const images = (img.posters).slice(0, 2);
-  console.log(provider.results)
+  
   const providers = Object.values(provider.results)
-  console.log(providers)
+
 
   //console.log(providers[0].link)
   //console.log(providers[0].flatrate[0].provider_name)
