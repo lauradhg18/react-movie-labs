@@ -6,6 +6,7 @@ import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
@@ -13,6 +14,7 @@ import img from '../../images/film-poster-placeholder.png'
 import { Link } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import React, { useContext  } from "react";
+import Box from '@mui/material/Box';
 import { MoviesContext } from "../../contexts/moviesContext";
 
 export default function MovieCard({ movie, action }) {
@@ -31,7 +33,7 @@ export default function MovieCard({ movie, action }) {
   } else {
     movie.watchList = false
   }
-  console.log(action)
+ 
   const handleAddToFavorite = (e) => {
     e.preventDefault();
     addToFavorites(movie);
@@ -42,22 +44,27 @@ export default function MovieCard({ movie, action }) {
     addToWatchList(movie);
   };
 
-
+console.log(movie.watchList)
   return (
     <Card sx={{ maxWidth: 345 }}>
        <CardHeader
-        avatar={
-          movie.favorite ? (
-            <Avatar sx={{ backgroundColor: 'red' }}>
+       title={
+        <Box display="flex" alignItems="center">
+          {movie.favorite && (
+            <Avatar sx={{ backgroundColor: 'red', width: 30, height: 30, marginRight: 1, marginTop: 1 }}>
               <FavoriteIcon />
             </Avatar>
-          ) : null
-        }
-        title={
+          )}
+          {movie.watchList && (
+            <Avatar sx={{ backgroundColor: 'yellow', width: 30, height: 30, marginRight: 1 }}>
+              <PlaylistAddIcon />
+            </Avatar>
+          )}
           <Typography variant="h5" component="p">
-            {movie.title}{" "}
+            {movie.title}
           </Typography>
-        }
+        </Box>
+      }
       />
       <CardMedia
         sx={{ height: 500 }}

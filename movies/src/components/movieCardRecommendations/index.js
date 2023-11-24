@@ -5,6 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
@@ -31,13 +32,20 @@ export default function MovieCardRecommendations({ movie, action }) {
   return (
     <Card sx={{ maxWidth: 400 }}>
        <CardHeader
-        avatar={
-          movie.favorite ? (
-            <Avatar sx={{ backgroundColor: 'red' }}>
-              <FavoriteIcon />
-            </Avatar>
-          ) : null
-        }
+       avatar={
+        movie.favorite ? (
+          <Avatar sx={{ backgroundColor: 'red', width: 30, height: 30}}>
+            <FavoriteIcon />
+          </Avatar>
+        ) : null
+      }
+      avatar2={
+        movie.watchList ? (
+          <Avatar sx={{ backgroundColor: 'yellow', width: 30, height: 30}}>
+            < PlaylistAddIcon  />
+          </Avatar>
+        ) : null
+      }
         title={
           <Typography variant="h6" component="p" textAlign="center">
             {movie.title}{" "}
