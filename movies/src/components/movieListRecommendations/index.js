@@ -12,7 +12,7 @@ const MovieListRecommendation = ({movies, action }) => {
   ));
 
   return(
-    movieCards.slice(0,9)
+    movieCards.slice(0,3)
   );
 };
 

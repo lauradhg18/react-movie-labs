@@ -16,8 +16,13 @@ import { useQuery } from 'react-query';
 import Spinner from '../spinner';
 import AddToFavoritesIcon from '../cardIcons/addToFavorites'
 import MovieActorsTemplate from '../templateMovieActors';
+import MovieCrewTemplate from '../templateMovieCrew';
 import Grid from "@mui/material/Grid";
 import MovieListRecommendation from "../movieListRecommendations";
+import AddToWatchListIcon from '../cardIcons/addToWatchListIcon'
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+
 
 const root = {
     display: "flex",
@@ -32,11 +37,34 @@ const chip = { margin: 0.5 };
 const MovieDetails = ({movie}) => {  
   const [rateDrawerOpen, setRateDrawerOpen] = useState(false);
   const [reviewsDrawerOpen, setReviewsDrawerOpen] = useState(false);
-  //
+  const [recommendationsPage, setRecommendationsPage] = useState(1);
+  const [castPage, setCastPage] = useState(1);
+  const [crewPage, setCrewPage] = useState(1);
+  
+
+  const { data: recommendations, error: recError, isLoading: recLoading, isError:recIsErr  } = useQuery(
+    ['recommendations'+movie.id, recommendationsPage], // Key for the query
+    () => getMovieRecommendations(movie.id, recommendationsPage), // queryFn
+    {
+      keepPreviousData: true, 
+    }
+  );
+  const {data: credits, error: credError, isLoading: credLoading, isError: credIsErr } 
+  = useQuery('credits' + movie.id,  async ()=> {const responseCre = await getMovieCredits(movie.id); return responseCre;})
+  
+  
+
+
+  const handleRecommendationsPageChange = (event, newRecommendationPage) => {
+    setRecommendationsPage(newRecommendationPage);
+  };
+  
+  /*
   const {data: recommendations, error: recError, isLoading: recLoading, isError:recIsErr }  
   = useQuery('recommendations'+ movie.id, async ()=> {const responseRec = await getMovieRecommendations(movie.id); return responseRec})
   const {data: credits, error: credError, isLoading: credLoading, isError: credIsErr } 
   = useQuery('credits' + movie.id,  async ()=> {const responseCre = await getMovieCredits(movie.id); return responseCre;})
+  */
   if (recLoading || credLoading) {
     return <Spinner />;
   }
@@ -46,14 +74,20 @@ const MovieDetails = ({movie}) => {
   }  
    
   const moviesRec = recommendations 
+
   const favorites = moviesRec.filter(m => m.favorite)
   localStorage.setItem('favorites', JSON.stringify(favorites))
+  const watchListStored = moviesRec.filter(m => m.watchList)
+  localStorage.setItem('forWatchList', JSON.stringify(watchListStored))
  
-  if (credError) {
-    return <h1>{credIsErr.message}</h1>
+  if (credIsErr) {
+    return <h1>{credError.message}</h1>
   } 
 
-  const movieCredits = credits.cast
+  const movieActorCredits = credits.cast
+
+  const movieCrewCredits = credits.crew
+
 
   return (
     <>
@@ -109,23 +143,39 @@ const MovieDetails = ({movie}) => {
       <Typography variant="h5" component="h3" textAlign="center" >
         RECOMMENATIONS
       </Typography>
-
+      <div>
       <Grid container sx={{ padding: '60px' }}>
           <Grid  item container spacing={2}>    
-  <           MovieListRecommendation action={(movie) => {
-                        return <AddToFavoritesIcon movie={movie} />
-                        }} movies={moviesRec} ></MovieListRecommendation>
+  <           MovieListRecommendation action={[
+          (movie) => <AddToFavoritesIcon movie={movie} />,
+          (movie) => <AddToWatchListIcon movie={movie} />,
+        ]} movies={moviesRec} ></MovieListRecommendation>
            </Grid>
       </Grid>
+      <Stack spacing={2}>
+      <Pagination count={2} color="secondary" page={recommendationsPage} onChange={handleRecommendationsPageChange}/>
+       </Stack>
+       </div>
       
 
       <Typography variant="h5" component="h3" textAlign="center" >
         ACTORS
       </Typography>
+      
       <MovieActorsTemplate
-       credits={movieCredits}
+       cast={movieActorCredits}
       />
+      
 
+     <Typography variant="h5" component="h3" textAlign="center" >
+        CREW
+      </Typography>
+     
+      <MovieCrewTemplate
+       credits={movieCrewCredits}
+      />
+      
+      
       <Fab
         color="primary"
         variant="extended"
@@ -167,9 +217,4 @@ const MovieDetails = ({movie}) => {
   );
 };
 export default MovieDetails ;
-/*<PageTemplateRec
-       movies={moviesRec}
-       action={(movie) => {
-       return <AddToFavoritesIcon movie={movie} />
-        }}
-      />*/ 
+

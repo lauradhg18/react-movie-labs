@@ -42,7 +42,7 @@ const handlePageChange = (event, newPage) => {
   return (
     <div>
     <PeoplePageTemplate
-    title="Discover Actors, Directors..."
+    title="ACTORS"
     people={people}
     //action={(movie) => {
       //return <AddToFavoritesIcon movie={movie} />

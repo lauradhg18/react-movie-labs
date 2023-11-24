@@ -7,8 +7,21 @@ import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 import AddToWatchListIcon from '../components/cardIcons/addToWatchListIcon'
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+
 const PopularMoviesPage = (props) => {
-    const {data, error, isLoading, isError }  = useQuery('popular', getPopularMovies)
+   
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const { data, error, isLoading, isError } = useQuery(
+      ['popular'+currentPage, currentPage], // Key for the query
+      () => getPopularMovies(currentPage), // queryFn
+      {
+        keepPreviousData: true, 
+      }
+    );
+    const handlePageChange = (event, newPage) => {
+      setCurrentPage(newPage);
+    };
 
     if (isLoading) {
       return <Spinner />
@@ -18,6 +31,7 @@ const PopularMoviesPage = (props) => {
       return <h1>{error.message}</h1>
     }  
     const movies = data.results;
+
     const favorites = movies.filter(m => m.favorite)
     localStorage.setItem('favorites', JSON.stringify(favorites))
     const watchListStored = movies.filter(m => m.watchList)
@@ -26,6 +40,7 @@ const PopularMoviesPage = (props) => {
 
 
     return (
+      <div>
       <PageTemplate
         title='Popular Movies'
         movies={movies}
@@ -34,6 +49,12 @@ const PopularMoviesPage = (props) => {
           (movie) => <AddToWatchListIcon movie={movie} />,
         ]}
       />
+
+      <Stack spacing={2}>
+      <Pagination count={10} color="secondary" page={currentPage} onChange={handlePageChange}/>
+       </Stack>
+
+       </div>
     );
   };
   export default PopularMoviesPage;

@@ -8,7 +8,17 @@ import AddToWatchListIcon from '../components/cardIcons/addToWatchListIcon'
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 const TopRatedMoviesPage = (props) => {
-    const {data, error, isLoading, isError }  = useQuery('topRated', getTopRated)
+  const [currentPage, setCurrentPage] = useState(1);
+    const { data, error, isLoading, isError } = useQuery(
+      ['topRated'+currentPage, currentPage], // Key for the query
+      () => getTopRated(currentPage), // queryFn
+      {
+        keepPreviousData: true, 
+      }
+    );
+    const handlePageChange = (event, newPage) => {
+      setCurrentPage(newPage);
+    };
 
     if (isLoading) {
       return <Spinner />
@@ -26,6 +36,7 @@ const TopRatedMoviesPage = (props) => {
 
 
     return (
+      <div>
       <PageTemplate
         title='Top Rated Movies'
         movies={movies}
@@ -34,6 +45,11 @@ const TopRatedMoviesPage = (props) => {
           (movie) => <AddToWatchListIcon movie={movie} />,
         ]}
       />
+      <Stack spacing={2}>
+      <Pagination count={10} color="secondary" page={currentPage} onChange={handlePageChange}/>
+       </Stack>
+
+       </div>
     );
   };
   export default TopRatedMoviesPage;

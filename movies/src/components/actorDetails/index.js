@@ -18,6 +18,7 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import Grid from "@mui/material/Grid";
 import MovieListRecommendation from "../movieListRecommendations";
+import AddToWatchListIcon from '../cardIcons/addToWatchListIcon'
 
 
 const root = {
@@ -47,23 +48,31 @@ const ActorDetails = ({actor}) => {
   const movieCredits = moviecredits.cast
   const favorites = movieCredits.filter(m => m.favorite)
   localStorage.setItem('favorites', JSON.stringify(favorites))
- 
+  const watchListStored = movieCredits.filter(m => m.watchList)
+  localStorage.setItem('forWatchList', JSON.stringify(watchListStored))
+
   let deathDate
-  if (movieCredits.deathday != null){
+  if (actor.deathday != null){
       deathDate =  movieCredits.deathday
   }else {
       deathDate = "-"
   }
-  let gender;
-  if (movieCredits.gender === 1){
-      gender = "Female";
-  }else if (movieCredits.gender === 2){
+
+let gender;
+
+switch (actor.gender) {
+  case 1:
+    gender = "Female";
+    break;
+  case 2:
     gender = "Male";
-  }else if (movieCredits.gender === 3){
+    break;
+  case 3:
     gender = "Non binary";
-  } else {
+    break;
+  default:
     gender = "Not specified";
-  }
+}
  
   return (
     <>
@@ -98,9 +107,10 @@ const ActorDetails = ({actor}) => {
 
       <Grid container sx={{ padding: '60px' }}>
           <Grid  item container spacing={2}>    
-  <           MovieListRecommendation action={(movie) => {
-                        return <AddToFavoritesIcon movie={movie} />
-                        }} movies={movieCredits} ></MovieListRecommendation>
+  <           MovieListRecommendation action={[
+          (movie) => <AddToFavoritesIcon movie={movie} />,
+          (movie) => <AddToWatchListIcon movie={movie} />,
+        ]}  movies={movieCredits} ></MovieListRecommendation>
            </Grid>
       </Grid>
       

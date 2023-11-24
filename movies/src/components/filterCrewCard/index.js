@@ -8,14 +8,12 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
-import StarPurple500Icon from '@mui/icons-material/StarPurple500';
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import img from '../../images/pexels-dziana-hasanbekava-5480827.jpg'
 import { getDepartment } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner'
-
 
 const formControl = 
   {
@@ -24,7 +22,22 @@ const formControl =
     backgroundColor: "rgb(255, 255, 255)"
   };
 
-export default function FilterPeopleCard(props) {
+export default function FilterCrewCard(props) {
+
+  const { data, error, isLoading, isError } = useQuery("departmentCrew", getDepartment);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
+   
+  const department = data
+  if (department[0].department !== "All"){
+    department.unshift({ department: "All" });
+  }
 
 
   const handleChange = (e, type, value) => {
@@ -36,6 +49,9 @@ export default function FilterPeopleCard(props) {
     handleChange(e, "name", e.target.value);
   };
 
+  const handleDepartmentChange = (e) => {
+    handleChange(e, "department", e.target.value);
+  };
 
 
   return (
@@ -49,7 +65,7 @@ export default function FilterPeopleCard(props) {
       <CardContent>
         <Typography variant="h5" component="h1">
           <SearchIcon fontSize="large" />
-          Search by Name.
+          Search by name
         </Typography>
         <TextField
           sx={{...formControl}}
@@ -60,20 +76,26 @@ export default function FilterPeopleCard(props) {
           value={props.titleFilter}
           onChange={handleTextChange}
         />
-        
+        <FormControl sx={{...formControl}}>
+          <InputLabel id="department-label">Department</InputLabel>
+          <Select
+            labelId="department-label"
+            id="department-select"
+            defaultValue=""
+            value={props.departmentFilter}
+            onChange={handleDepartmentChange}
+          >
+            {department.map((department) => {
+              return (
+                <MenuItem key={department.department} value={department.department}>
+                  {department.department}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
       </CardContent>
-      <CardMedia
-        sx={{ height: 200 }}
-        image={img}
-        title="Filter"
-      />
-      <CardContent>
-        <Typography variant="h5" component="h1">
-          <StarPurple500Icon  fontSize="large" />
-          DISCOVER ACTORS!
-          <br />
-        </Typography>
-      </CardContent>
+      
     </Card>
 
 

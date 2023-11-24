@@ -1,4 +1,5 @@
 import PageTemplate from '../components/templateMovieListPage'
+import {useState, useEffect} from "react";
 import { getUpcomingMovies } from "../api/tmdb-api";
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
@@ -8,8 +9,18 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
 const UpcomingPage = (props) => {
-    const {data, error, isLoading, isError }  = useQuery('upcoming', getUpcomingMovies)
-
+   
+    const [currentPage, setCurrentPage] = useState(1);
+    const { data, error, isLoading, isError } = useQuery(
+      ['upcoming'+currentPage, currentPage], // Key for the query
+      () => getUpcomingMovies(currentPage), // queryFn
+      {
+        keepPreviousData: true, 
+      }
+    );
+    const handlePageChange = (event, newPage) => {
+      setCurrentPage(newPage);
+    };
     if (isLoading) {
       return <Spinner />
     }
@@ -26,6 +37,7 @@ const UpcomingPage = (props) => {
 
 
     return (
+      <div>
       <PageTemplate
         title='Upcoming Movies'
         movies={movies}
@@ -35,6 +47,11 @@ const UpcomingPage = (props) => {
         ]}
             
       />
+      <Stack spacing={2}>
+      <Pagination count={10} color="secondary" page={currentPage} onChange={handlePageChange}/>
+       </Stack>
+
+       </div>
     );
   };
   export default UpcomingPage;

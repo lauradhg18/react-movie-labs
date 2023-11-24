@@ -36,9 +36,9 @@ const LatestMoviesPage = (props) => {
     const movies = data.results;
     const favorites = movies.filter(m => m.favorite)
     localStorage.setItem('favorites', JSON.stringify(favorites))
-    /*const watchListStored = movies.filter(m => m.watchList)
+    const watchListStored = movies.filter(m => m.watchList)
     localStorage.setItem('forWatchList', JSON.stringify(watchListStored))
-   */
+   
 
 
     return (
