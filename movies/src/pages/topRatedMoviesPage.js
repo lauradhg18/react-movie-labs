@@ -20,18 +20,19 @@ const TopRatedMoviesPage = (props) => {
     const movies = data.results;
     const favorites = movies.filter(m => m.favorite)
     localStorage.setItem('favorites', JSON.stringify(favorites))
-    /*const watchListStored = movies.filter(m => m.watchList)
+    const watchListStored = movies.filter(m => m.watchList)
     localStorage.setItem('forWatchList', JSON.stringify(watchListStored))
-   */
+   
 
 
     return (
       <PageTemplate
         title='Top Rated Movies'
         movies={movies}
-        action={(movie) => {
-          return <AddToFavoritesIcon movie={movie} />
-        }}
+        action={[
+          (movie) => <AddToFavoritesIcon movie={movie} />,
+          (movie) => <AddToWatchListIcon movie={movie} />,
+        ]}
       />
     );
   };

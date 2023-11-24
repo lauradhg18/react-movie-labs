@@ -3,8 +3,7 @@ import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
 import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
+
 
 
 function MovieListPageTemplate({ movies, title, action}) {
@@ -25,7 +24,8 @@ function MovieListPageTemplate({ movies, title, action}) {
     if (type === "name") setNameFilter(value);
     else setGenreFilter(value);
   };
-  console.log(action)
+
+  
   return (
     <div>
     <Grid container sx={{ padding: '20px' }}>

@@ -8,14 +8,15 @@ import RemoveFromWatchList from "../components/cardIcons/removeFromWatchList";
 
 
 const WatchListMoviesPage = () => {
-  const {watchlist: movieIds } = useContext(MoviesContext);
+  const {watchList: movieIds } = useContext(MoviesContext);
 
   // Create an array of queries and run in parallel.
-  console.log(movieIds)
+
+
   const watchListMovieQueries = useQueries(
     movieIds.map((movieId) => {
       return {
-        queryKey: ["movie", { id: movieId }],
+        queryKey: ["movieWatchList", { id: movieId }],
         queryFn: getMovie,
       };
     })
@@ -38,14 +39,10 @@ const WatchListMoviesPage = () => {
     <PageTemplate
     title="WatchList"
     movies={movies}
-    action={(movie) => {
-      return (
-        <>
-          <RemoveFromWatchList movie={movie} />
-          
-        </>
-      );
-    }}
+    action={[
+      (movie) => <RemoveFromWatchList movie={movie} />
+      
+    ]}
   />
   );
 };

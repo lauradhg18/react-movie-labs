@@ -32,7 +32,6 @@ const MoviesContextProvider = (props) => {
 
 
 
-// We will use this function in a later section (should create the page watchList)
   const removeFromWatchList = (movie) => {
       setWatchList(watchList.filter(
          (mId) => mId !== movie.id
@@ -51,7 +50,7 @@ const MoviesContextProvider = (props) => {
     setMyReviews( {...myReviews, [movie.id]: review } )
   };
 
-
+console.log(watchList)
   return (
     <MoviesContext.Provider
       value={{

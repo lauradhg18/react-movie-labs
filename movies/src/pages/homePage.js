@@ -49,9 +49,10 @@ const HomePage = (props) => {
  
     title="Discover Movies"
     movies={movies}
-    action={(movie) => {
-      return <AddToFavoritesIcon movie={movie} />
-    }}
+    action={[
+      (movie) => <AddToFavoritesIcon movie={movie} />,
+      (movie) => <AddToWatchListIcon movie={movie} />,
+    ]}
   />
 
   <Stack spacing={2}>
@@ -65,15 +66,3 @@ const HomePage = (props) => {
 };
 export default HomePage;
 
-/** action={[
-      (movie) => <AddToFavoritesIcon movie={movie} />,
-      (movie) => <AddToWatchListIcon movie={movie} />,
-    ]}
-    */
-
-/* action1={(movie) => {
-      return <AddToFavoritesIcon movie={movie} />
-    }}
-    action2 = {(movie) => {
-      return <AddToWatchListIcon movie={movie} />
-    }}*/

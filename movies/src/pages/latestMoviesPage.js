@@ -46,9 +46,10 @@ const LatestMoviesPage = (props) => {
       <PageTemplate
         title='Latest Movies'
         movies={movies}
-        action={(movie) => {
-          return <AddToFavoritesIcon movie={movie} />
-        }}
+        action={[
+          (movie) => <AddToFavoritesIcon movie={movie} />,
+          (movie) => <AddToWatchListIcon movie={movie} />,
+        ]}
       />
 
       <Stack spacing={2}>

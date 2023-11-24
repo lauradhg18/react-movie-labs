@@ -42,6 +42,7 @@ export default function MovieCard({ movie, action }) {
     addToWatchList(movie);
   };
 
+
   return (
     <Card sx={{ maxWidth: 345 }}>
        <CardHeader
@@ -83,7 +84,7 @@ export default function MovieCard({ movie, action }) {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-      {action(movie)}
+      {action.map(action =>  { return action(movie)})}
           <Link to={`/movies/${movie.id}`}>
            <Button variant="outlined" size="medium" color="primary">
             More Info ...

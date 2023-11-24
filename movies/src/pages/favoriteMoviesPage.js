@@ -9,13 +9,13 @@ import WriteReview from "../components/cardIcons/writeReview";
 
 const FavoriteMoviesPage = () => {
   const {favorites: movieIds } = useContext(MoviesContext);
-
   console.log(movieIds)
+
   // Create an array of queries and run in parallel.
   const favoriteMovieQueries = useQueries(
     movieIds.map((movieId) => {
       return {
-        queryKey: ["movie", { id: movieId }],
+        queryKey: ["movieFavorites", { id: movieId }],
         queryFn: getMovie,
       };
     })
@@ -38,16 +38,23 @@ const FavoriteMoviesPage = () => {
     <PageTemplate
     title="Favorite Movies"
     movies={movies}
-    action={(movie) => {
+    action={[
+      (movie) => <RemoveFromFavorites movie={movie} />,
+      (movie) => <WriteReview movie={movie} />,
+    ]}
+  />
+  );
+};
+
+export default FavoriteMoviesPage;
+
+
+
+/*{(movie) => {
       return (
         <>
           <RemoveFromFavorites movie={movie} />
           <WriteReview movie={movie} />
         </>
       );
-    }}
-  />
-  );
-};
-
-export default FavoriteMoviesPage;
+    }} */
