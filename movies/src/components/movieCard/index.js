@@ -44,7 +44,7 @@ export default function MovieCard({ movie, action }) {
     addToWatchList(movie);
   };
 
-console.log(movie.watchList)
+
   return (
     <Card sx={{ maxWidth: 345 }}>
        <CardHeader
@@ -103,8 +103,4 @@ console.log(movie.watchList)
   );
 }
 
-/*{action.map((action, index) => (
-          <div key={index}>
-            {action(movie)}
-          </div>
-        ))} */
+

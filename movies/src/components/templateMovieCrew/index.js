@@ -3,13 +3,13 @@ import Grid from "@mui/material/Grid";
 import MovieCrewList from "../crewList";
 import FilterCard from "../filterCrewCard";
 
-function MovieCrewTemplate({credits}) { 
+function MovieCrewTemplate({crew}) { 
   
    const [nameFilter, setNameFilter] = useState("");
    const [departmentFilter, setDepartmentFilter] = useState("All");
    const departmentId = String(departmentFilter);
   
-   let displayedCrew = credits
+   let displayedCrew = crew
      .filter((c) => {
        return c.name.toLowerCase().search(nameFilter.toLowerCase()) !== -1;
      })
@@ -21,7 +21,7 @@ function MovieCrewTemplate({credits}) {
      if (type === "name") setNameFilter(value);
      else setDepartmentFilter(value);
    };
-   console.log(displayedCrew)
+
       return (
          <Grid container sx={{ padding: '60px' }}>
             <Grid item container spacing={2}>  
@@ -32,7 +32,7 @@ function MovieCrewTemplate({credits}) {
                   departmentFilter={departmentFilter}
                   />  
                   </Grid>
-             <MovieCrewList credits={displayedCrew} ></MovieCrewList>
+             <MovieCrewList crew={displayedCrew} ></MovieCrewList>
               </Grid>
            </Grid>
       );

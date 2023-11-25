@@ -50,7 +50,6 @@ const MoviesContextProvider = (props) => {
     setMyReviews( {...myReviews, [movie.id]: review } )
   };
 
-console.log(watchList)
   return (
     <MoviesContext.Provider
       value={{

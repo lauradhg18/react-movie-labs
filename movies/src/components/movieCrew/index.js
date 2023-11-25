@@ -10,15 +10,15 @@ import Button from "@mui/material/Button";
 import React from "react";
 
 
-export default function MovieCrew({credits}) {
+export default function Moviecredits({crew}) {
   
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardMedia
         sx={{height: 400}}
         image={
-            credits.profile_path
-            ? `https://image.tmdb.org/t/p/w500${credits.profile_path}`
+            crew.profile_path
+            ? `https://image.tmdb.org/t/p/w500${crew.profile_path}`
             : img
         }
       />
@@ -26,16 +26,16 @@ export default function MovieCrew({credits}) {
       <Grid container spacing={2} alignItems="center">
         <Grid item>
         <Typography variant="h6" component="p">
-            {credits.name}
+            {crew.name}
          </Typography>
           <Typography variant="h7" component="p">
-            {credits.department}
+            {crew.department}
          </Typography>
       </Grid>
       </Grid>
       </CardContent>
          <CardActions disableSpacing>
-           <Link to={`/movies/actor/${credits.id}`}>
+           <Link to={`/movies/actor/${crew.id}`}>
            <Button variant="outlined" size="medium" color="primary">
               More Info ...
            </Button>

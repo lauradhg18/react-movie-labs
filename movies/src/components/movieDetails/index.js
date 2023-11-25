@@ -172,7 +172,7 @@ const MovieDetails = ({movie}) => {
       </Typography>
      
       <MovieCrewTemplate
-       credits={movieCrewCredits}
+       crew={movieCrewCredits}
       />
       
       

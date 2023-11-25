@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
@@ -8,6 +8,8 @@ import { getMovieProviders } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner'
 import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 
 const TemplateMoviePage = ({ movie, children }) => {
   const { data: img , error: imgerr, isLoading: imgLoad, isError: imgErr } = useQuery(
@@ -18,7 +20,6 @@ const TemplateMoviePage = ({ movie, children }) => {
     ["providers" + movie.id, { id: movie.id }],
     getMovieProviders
   );
-
 
   if (imgLoad || provLoad) {
     return <Spinner />;
@@ -32,26 +33,16 @@ const TemplateMoviePage = ({ movie, children }) => {
   }
   const images = (img.posters).slice(0, 2);
   
-  const providers = Object.values(provider.results)
-
-
-  //console.log(providers[0].link)
-  //console.log(providers[0].flatrate[0].provider_name)
-  /*<Typography variant="h9" >
-  <div>{providers[0].flatrate[0].provider_name}
-  <img
-      src={`https://image.tmdb.org/t/p/w500/${providers[0].flatrate[0].logo_path}`}
-      alt={providers[0].flatrate[0].provider_id}
-      style={{ width: '50px' }}
-  /></div>
-  <div>{providers[1].flatrate[0].provider_name}</div> 
-      
-      
-  </Typography> 
-  */
+  let providers = null
+  if(provider.results.IE !== undefined){
+    console.log(provider.results.IE)
+    providers = Object.values(provider.results.IE)
+  }
+  
+ 
 
   return (
-    <>
+    <div>
       <MovieHeader movie={movie} />
       <Grid container spacing={5} sx={{ padding: "15px" }}>
         <Grid item xs={3}>
@@ -73,29 +64,54 @@ const TemplateMoviePage = ({ movie, children }) => {
                 }
             </ImageList>
           </div>
-          
-        <div>
-          <Typography variant="h5" >
-             WHERE TO WATCH
+          <Card 
+      sx={{
+        maxWidth: 345,
+        backgroundColor: "rgb(204, 153, 255)"
+      }} 
+      variant="outlined">
+      <CardContent>
+        <Typography variant="h5" component="h1">
+          WHERE TO WATCH
+        </Typography>
+        <Grid container sx={{ padding: '60px' }}>
+       
+        {providers!==null ? ( 
+        providers[1].map((aux) => (
+            <div key={aux.provider_name+aux.logo_path}>
+           <li key={aux.provider_name}>
+           {aux.provider_name}
+         </li>
+         <ImageListItem key={aux.logo_path}>
+         <img
+         src={`https://image.tmdb.org/t/p/w500/${aux.logo_path}`}
+         alt={aux.provider_id}
+         style={{ width: '50px' }}
+         />  
+         </ImageListItem>
+         </div>
+          ))
+          ):( 
+          <Typography variant="h6" component="h1">
+            No providers in Ireland
           </Typography>
-                    
-                  
-                 
-               
-        
-
-        </div>
-          
-
-
-        </Grid>
-
+          )}
+           </Grid>
+           </CardContent>
+      
+      </Card>
+      
+           </Grid>
         <Grid item xs={9}>
           {children}
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 };
 
 export default TemplateMoviePage;
+
+/*{providers.map(value => {
+                return value.map(aux => aux);
+              })}; */

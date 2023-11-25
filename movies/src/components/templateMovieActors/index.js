@@ -6,7 +6,7 @@ import FilterCard from "../filterPeopleCard";
 function MovieActorsTemplate({cast}) { 
    const [nameFilter, setNameFilter] = useState("");
 
-   console.log(cast)
+   
    let displayedCast= cast
      .filter((c) => {
        return c.name.toLowerCase().search(nameFilter.toLowerCase()) !== -1;
