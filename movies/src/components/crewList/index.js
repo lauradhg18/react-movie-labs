@@ -1,5 +1,5 @@
 import React from "react";
-import Crew from "../movieCrew";
+import Crew from "../movieCrewCard";
 import Grid from "@mui/material/Grid";
 
 const MovieCrewList = ({crew}) => {

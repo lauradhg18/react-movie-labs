@@ -3,7 +3,7 @@ import MovieRec from "../movieCardRecommendations";
 import Grid from "@mui/material/Grid";
 
 
-const MovieListRecommendation = ({movies, action }) => {
+const MovieListRecommendation = ({movies, action, currentPage }) => {
  
   let movieCards = movies.map((m) => (
     <Grid key={m.id} item xs={2} sm={2} md={2} lg={4} xl={1}>
@@ -12,7 +12,7 @@ const MovieListRecommendation = ({movies, action }) => {
   ));
 
   return(
-    movieCards.slice(0,3)
+    movieCards.slice(currentPage,currentPage+3)
   );
 };
 

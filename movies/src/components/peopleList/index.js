@@ -1,7 +1,7 @@
 import React from "react";
 import People from "../peopleCard";
 import Grid from "@mui/material/Grid";
-import {DataGrid} from "@mui/x-data-grid";
+
 
 
 const PeopleList = ( {people}) => {

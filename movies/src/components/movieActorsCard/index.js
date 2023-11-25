@@ -35,7 +35,7 @@ export default function MovieActors({cast}) {
       </Grid>
       </CardContent>
          <CardActions disableSpacing>
-           <Link to={`/movies/actor/${cast.id}`}>
+           <Link to={`/movies/people/${cast.id}`}>
            <Button variant="outlined" size="medium" color="primary">
               More Info ...
            </Button>

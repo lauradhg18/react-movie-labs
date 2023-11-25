@@ -11,6 +11,7 @@ import Stack from '@mui/material/Stack';
 const HomePage = (props) => {
  // const storedPage = localStorage.getItem('currentPage') || 1;
   const [currentPage, setCurrentPage] = useState(1);
+ 
 
   const { data, error, isLoading, isError } = useQuery(
     ['movies'+currentPage, currentPage], // Key for the query
@@ -22,9 +23,8 @@ const HomePage = (props) => {
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
   };
-//  useEffect(() => {
-  //  localStorage.setItem('currentPage', currentPage);
- // }, [currentPage]);
+  
+
 
   if (isLoading) {
     return <Spinner />

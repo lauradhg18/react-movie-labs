@@ -4,8 +4,6 @@ import Grid from "@mui/material/Grid";
 
 
 const MovieList = ( {movies, action}) => {
- 
-  console.log("movielist", action)
   
   let movieCards = movies.map((m) => (
     <Grid key={m.id} item xs={11} sm={5} md={3} lg={4} xl={1}>

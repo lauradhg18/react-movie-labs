@@ -7,9 +7,10 @@ export default function MovieRate({movie}) {
   
   const storedValue = localStorage.getItem('movieRating' + movie.id);
   const [value, setValue] = useState(storedValue ? parseFloat(storedValue) : 2);
+  
   useEffect(() => {
     localStorage.setItem('movieRating' + movie.id, value.toString());
-  }, [value]);
+  });
 
   return (
     <Box

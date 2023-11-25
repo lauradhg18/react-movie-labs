@@ -1,5 +1,5 @@
 import React from "react";
-import ActorDetails from "../components/actorDetails/";
+import ActorDetails from "../components/peopleDetails";
 import { useParams } from 'react-router-dom';
 import ActorPageTemplate from "../components/templateActorPage";
 import { getActorDetails } from '../api/tmdb-api'

@@ -1,5 +1,5 @@
 import React from "react";
-import ActorHeader from "../headerActor";
+import PeopleHeader from "../headerPeople";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -22,11 +22,10 @@ const TemplateActorPage = ({ actor, children }) => {
   }
   const images = (data.profiles);
 
-  console.log(images)
   
   return (
     <>
-      <ActorHeader actor={actor} />
+      <PeopleHeader actor={actor} />
       <Grid container spacing={5} sx={{ padding: "15px" }}>
         <Grid item xs={3}>
           <div sx={{

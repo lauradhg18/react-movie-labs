@@ -1,24 +1,18 @@
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
-import NavigationIcon from "@mui/icons-material/Navigation";
-import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
-import Drawer from "@mui/material/Drawer";
-import MovieReviews from "../movieReviews";
-import { getActorMovieCredits} from "../../api/tmdb-api";
+import { getPeopleMovieCredits} from "../../api/tmdb-api";
 import { useQuery } from 'react-query';
 import Spinner from '../spinner';
 import AddToFavoritesIcon from '../cardIcons/addToFavorites'
 import CakeIcon from '@mui/icons-material/Cake';
-import MaleIcon from '@mui/icons-material/Male';
-import FemaleIcon from '@mui/icons-material/Female';
 import Grid from "@mui/material/Grid";
 import MovieListRecommendation from "../movieListRecommendations";
 import AddToWatchListIcon from '../cardIcons/addToWatchListIcon'
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 
 const root = {
@@ -29,13 +23,11 @@ const root = {
     padding: 1.5,
     margin: 0,
 };
-const chip = { margin: 0.5 };
 
-const ActorDetails = ({actor}) => {  
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  
+const PeopleDetails = ({actor}) => {  
+  const [movieCreditsPage, setMovieCreditsPage] = useState(1);
   const {data: moviecredits, error: movError, isLoading: movLoading, isError:movIsErr }  = useQuery(
-    'moviecredits' + actor.id, ()=> getActorMovieCredits(actor.id))
+    'moviecredits' + actor.id, ()=> getPeopleMovieCredits(actor.id))
   
   if (movLoading) {
     return <Spinner />;
@@ -46,6 +38,12 @@ const ActorDetails = ({actor}) => {
   }  
    
   const movieCredits = moviecredits.cast
+  
+  const handleMovieCreditsPageChange = (event, newMovieCreditsPage) => {
+    setMovieCreditsPage(newMovieCreditsPage);
+  
+  };
+  
   const favorites = movieCredits.filter(m => m.favorite)
   localStorage.setItem('favorites', JSON.stringify(favorites))
   const watchListStored = movieCredits.filter(m => m.watchList)
@@ -73,7 +71,7 @@ switch (actor.gender) {
   default:
     gender = "Not specified";
 }
- 
+
   return (
     <>
 
@@ -104,18 +102,22 @@ switch (actor.gender) {
       <Typography variant="h5" component="h3" textAlign="center" >
         MOVIES CREDITS
       </Typography>
-
+      <div>
       <Grid container sx={{ padding: '60px' }}>
           <Grid  item container spacing={2}>    
-  <           MovieListRecommendation action={[
+  <  MovieListRecommendation action={[
           (movie) => <AddToFavoritesIcon movie={movie} />,
           (movie) => <AddToWatchListIcon movie={movie} />,
-        ]}  movies={movieCredits} ></MovieListRecommendation>
+        ]}  movies={movieCredits} currentPage={movieCreditsPage}></MovieListRecommendation>
            </Grid>
       </Grid>
+      <Stack spacing={2}>
+      <Pagination count={15} color="secondary" page={movieCreditsPage} onChange={handleMovieCreditsPageChange}/>
+       </Stack>
+       </div>
       
       
       </>
   );
 };
-export default ActorDetails ;
+export default PeopleDetails ;

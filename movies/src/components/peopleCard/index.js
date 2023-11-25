@@ -35,7 +35,7 @@ export default function PeopleCard({people}) {
       </Grid>
       </CardContent>
          <CardActions disableSpacing>
-           <Link to={`/movies/actor/${people.id}`}>
+           <Link to={`/movies/people/${people.id}`}>
            <Button variant="outlined" size="medium" color="primary">
               More Info ...
            </Button>

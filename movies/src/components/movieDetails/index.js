@@ -38,33 +38,24 @@ const MovieDetails = ({movie}) => {
   const [rateDrawerOpen, setRateDrawerOpen] = useState(false);
   const [reviewsDrawerOpen, setReviewsDrawerOpen] = useState(false);
   const [recommendationsPage, setRecommendationsPage] = useState(1);
-  const [castPage, setCastPage] = useState(1);
-  const [crewPage, setCrewPage] = useState(1);
-  
-
+ 
   const { data: recommendations, error: recError, isLoading: recLoading, isError:recIsErr  } = useQuery(
-    ['recommendations'+movie.id, recommendationsPage], // Key for the query
-    () => getMovieRecommendations(movie.id, recommendationsPage), // queryFn
-    {
-      keepPreviousData: true, 
-    }
+    ['recommendations'+movie.id], 
+    () => getMovieRecommendations(movie.id), 
+    
   );
-  const {data: credits, error: credError, isLoading: credLoading, isError: credIsErr } 
-  = useQuery('credits' + movie.id,  async ()=> {const responseCre = await getMovieCredits(movie.id); return responseCre;})
-  
-  
 
-
+  const {data: credits, error: credError, isLoading: credLoading, isError: credIsErr} = useQuery(
+   ['credits'+movie.id], 
+  () => getMovieCredits(movie.id), 
+    
+  );
+  
   const handleRecommendationsPageChange = (event, newRecommendationPage) => {
     setRecommendationsPage(newRecommendationPage);
   };
   
-  /*
-  const {data: recommendations, error: recError, isLoading: recLoading, isError:recIsErr }  
-  = useQuery('recommendations'+ movie.id, async ()=> {const responseRec = await getMovieRecommendations(movie.id); return responseRec})
-  const {data: credits, error: credError, isLoading: credLoading, isError: credIsErr } 
-  = useQuery('credits' + movie.id,  async ()=> {const responseCre = await getMovieCredits(movie.id); return responseCre;})
-  */
+
   if (recLoading || credLoading) {
     return <Spinner />;
   }
@@ -149,11 +140,11 @@ const MovieDetails = ({movie}) => {
   <           MovieListRecommendation action={[
           (movie) => <AddToFavoritesIcon movie={movie} />,
           (movie) => <AddToWatchListIcon movie={movie} />,
-        ]} movies={moviesRec} ></MovieListRecommendation>
+        ]} movies={moviesRec} currentPage={recommendationsPage} ></MovieListRecommendation>
            </Grid>
       </Grid>
       <Stack spacing={2}>
-      <Pagination count={2} color="secondary" page={recommendationsPage} onChange={handleRecommendationsPageChange}/>
+      <Pagination count={15} color="secondary" page={recommendationsPage} onChange={handleRecommendationsPageChange}/>
        </Stack>
        </div>
       
@@ -161,10 +152,11 @@ const MovieDetails = ({movie}) => {
       <Typography variant="h5" component="h3" textAlign="center" >
         ACTORS
       </Typography>
-      
+   
       <MovieActorsTemplate
-       cast={movieActorCredits}
+       cast={movieActorCredits }
       />
+      
       
 
      <Typography variant="h5" component="h3" textAlign="center" >

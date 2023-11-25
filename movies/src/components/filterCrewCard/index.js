@@ -1,7 +1,5 @@
 import React from "react";
 import Card from "@mui/material/Card";
-import Grid from "@mui/material/Grid";
-import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import InputLabel from "@mui/material/InputLabel";
@@ -10,7 +8,6 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import img from '../../images/pexels-dziana-hasanbekava-5480827.jpg'
 import { getDepartment } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner'
@@ -42,7 +39,7 @@ export default function FilterCrewCard(props) {
 
   const handleChange = (e, type, value) => {
     e.preventDefault();
-    props.onUserInput(type, value); // NEW
+    props.onUserInput(type, value);
   };
 
   const handleTextChange = (e, props) => {

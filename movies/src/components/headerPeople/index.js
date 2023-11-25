@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 
-const ActorHeader = (props) => {
+const PeopleHeader = (props) => {
   const actor = props.actor;
   const navigate = useNavigate();
 
@@ -41,4 +41,4 @@ const ActorHeader = (props) => {
   );
 };
 
-export default ActorHeader;
+export default PeopleHeader;
